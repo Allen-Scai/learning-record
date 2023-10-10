@@ -1,0 +1,308 @@
+<!DOCTYPE html><html><head>
+      <title>markdown语法</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\sccai\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.1\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:///c:\Users\sccai\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.1\crossnote\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      pre{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;padding:1em;margin:.5em 0;overflow:auto;line-height:1.5;tab-size:4;hyphens:none;color:#555;background-color:#f0f0f0!important;border:#d6d6d6;border-radius:3px}pre[class*=language-]{padding:1em}code[class*=language-] .token.cdata,code[class*=language-] .token.comment,code[class*=language-] .token.doctype,code[class*=language-] .token.prolog,pre[class*=language-] .token.cdata,pre[class*=language-] .token.comment,pre[class*=language-] .token.doctype,pre[class*=language-] .token.prolog{color:#998;font-style:italic}code[class*=language-] .token.punctuation,pre[class*=language-] .token.punctuation{color:#920b2d}code[class*=language-] .namespace,pre[class*=language-] .namespace{opacity:.7}code[class*=language-] .token.property,pre[class*=language-] .token.property{font-weight:700;color:#333}code[class*=language-] .token.boolean,code[class*=language-] .token.function-name,code[class*=language-] .token.number,pre[class*=language-] .token.boolean,pre[class*=language-] .token.function-name,pre[class*=language-] .token.number{color:#d14}code[class*=language-] .token.tag,pre[class*=language-] .token.tag{color:#d14}code[class*=language-] .token.symbol,pre[class*=language-] .token.symbol{color:#990073}code[class*=language-] .token.selector,pre[class*=language-] .token.selector{color:teal}code[class*=language-] .token.attr-name,pre[class*=language-] .token.attr-name{color:#458;font-weight:700}code[class*=language-] .token.string,pre[class*=language-] .token.string{color:#d14}code[class*=language-] .token.char,pre[class*=language-] .token.char{color:#606aa1}code[class*=language-] .token.url,pre[class*=language-] .token.url{color:#888}code[class*=language-] .token.atrule,code[class*=language-] .token.attr-value,code[class*=language-] .token.keyword,pre[class*=language-] .token.atrule,pre[class*=language-] .token.attr-value,pre[class*=language-] .token.keyword{color:#222;font-weight:700}code[class*=language-] .token.function,pre[class*=language-] .token.function{color:#900}code[class*=language-] .token.class-name,pre[class*=language-] .token.class-name{text-decoration:underline;color:#606aa1}code[class*=language-] .token.variable,pre[class*=language-] .token.variable{color:teal}code[class*=language-] .token.bold,code[class*=language-] .token.important,pre[class*=language-] .token.bold,pre[class*=language-] .token.important{font-weight:700}code[class*=language-] .token.italic,pre[class*=language-] .token.italic{font-style:italic}code[class*=language-] .token.entity,pre[class*=language-] .token.entity{cursor:help}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#555;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#030303}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#7e7e7e}html body strong{color:#030303}html body del{color:#7e7e7e}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#7e7e7e;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#030303}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#030303;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#030303;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#030303;page-break-after:avoid}html body blockquote{color:#7e7e7e}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+.markdown-preview.markdown-preview {
+  font-size: 20px;
+  font-family: '仿宋';
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      <h1 id="1-markdown-文档" data-source-line="7">1 markdown 文档 </h1>
+<blockquote data-source-line="9">
+<p data-source-line="9">以<code>.md</code>为扩展名</p>
+</blockquote>
+<h1 id="2-markdown标题" data-source-line="11">2 markdown标题 </h1>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code># 这是一级标题
+## 这是二级标题
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> 这是 N 级标题
+<span class="token comment">/*理论上标题层次可以无限嵌套*/</span>
+<span class="token comment">/*以支持markdown的编译器为准，例如vscode最多可以支持六级标题*/</span>
+</code></pre><h1 id="3-代码块" data-source-line="21">3 代码块 </h1>
+<h2 id="31-不带行数的代码块" data-source-line="23">3.1 不带行数的代码块 </h2>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p data-source-line="36"><strong>上述代码块如何添加呢？</strong><br>
+```代码语言(<code>c</code>，<code>shell</code>，<code>cpp</code>，<code>python</code>等)<br>
+代码内容<br>
+```</p>
+<p data-source-line="41">比如添加一块<code>cpp</code>代码块：</p>
+<p data-source-line="43">```c<br>
+#include &lt;stdio.h&gt;<br>
+```</p>
+<p data-source-line="47">复制上方渲染出来的<code>markdown</code>语言，可以得到如下代码块，会自动渲染高亮：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+</code></pre><h2 id="32-带行数的代码块" data-source-line="53">3.2 带行数的代码块 </h2>
+<p data-source-line="55">下方的语法格式就能得到带行数的代码块</p>
+<p data-source-line="57">```c{.line-numbers}<br>
+代码内容<br>
+```</p>
+<p data-source-line="61">以<code>2.1节</code>中的<code>cpp</code>代码块为例，为其添加函数可得到：</p>
+<pre data-role="codeBlock" data-info="cpp{.line-numbers}" class="language-cpp cpp line-numbers"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword keyword-using">using</span> <span class="token keyword keyword-namespace">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, world!"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre><h2 id="33-某句话中引用代码" data-source-line="74">3.3 某句话中引用代码 </h2>
+<p data-source-line="76">这是<code>markdown</code>的使用说明，有没有发现<code>markdown</code>被一个黑色引用框起来了？<br>
+这就是在某句话中指定代码的方法，会使得文档读起来更加舒服。</p>
+<p data-source-line="79">`markdown`，用两个 ` 将代码框起来就可以了</p>
+<h1 id="4-图表" data-source-line="81">4 图表 </h1>
+<h2 id="41-流程图" data-source-line="83">4.1 流程图 </h2>
+<h3 id="411-类型及基本语法" data-source-line="85">4.1.1 类型及基本语法 </h3>
+<ol data-source-line="87">
+<li data-source-line="87">sequenceDiagram时序图</li>
+<li data-source-line="88">classDiagram类图</li>
+<li data-source-line="89">stateDiagram:状态图</li>
+<li data-source-line="90">erDiagram：ER图</li>
+<li data-source-line="91">gantt： 甘特图</li>
+<li data-source-line="92">pie：饼图</li>
+<li data-source-line="93">requirementDiagram: 需求图</li>
+</ol>
+<p data-source-line="95">注意下面源格式的的<code>graph LR</code>：<br>
+流程图以<code>graph + 布局方向</code>开头</p>
+<p data-source-line="98">代码基本格式</p>
+<pre data-role="codeBlock" data-info="log" class="language-log log"><code>流程图<span class="token operator">/</span>时序图代码
+</code></pre><p data-source-line="104">布局方向如下所示：</p>
+<pre data-role="codeBlock" data-info="log" class="language-log log"><code>TB，从上到下
+TD，从上到下
+BT，从下到上
+RL，从右到左
+LR，从左到右
+</code></pre><ul data-source-line="114">
+<li data-source-line="114">一个进程状态图的例子，<strong>从上到下</strong></li>
+</ul>
+<div class="mermaid">graph TD;
+    A[创建态] --&gt; B[就绪态];
+    B --&gt; C[运行态];
+    C --&gt; B[就绪态];
+    C --&gt; D[阻塞态];
+    D --&gt; B;
+    B --&gt; E[终止态]
+    C --&gt; E;
+    D --&gt; E;
+</div><ul data-source-line="128">
+<li data-source-line="128">一个进程状态图的例子，<strong>从左到右</strong></li>
+</ul>
+<div class="mermaid">graph LR;
+    A[创建态] --&gt; B[就绪态];
+    B --&gt; C[运行态];
+    C --&gt; B[就绪态];
+    C --&gt; D[阻塞态];
+    D --&gt; B;
+    B --&gt; E[终止态]
+    C --&gt; E;
+    D --&gt; E;
+</div><h3 id="412-符号" data-source-line="142">4.1.2 符号 </h3>
+<ol data-source-line="144">
+<li data-source-line="144">起止框</li>
+</ol>
+<div class="mermaid">graph TD;
+
+A(起始框)
+</div><h2 id="42-表格" data-source-line="152">4.2 表格 </h2>
+<h3 id="421-默认表格" data-source-line="154">4.2.1 默认表格 </h3>
+<p data-source-line="156">如下所示，在<code>markdown</code>中输入如下源码：</p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code><span class="token operator">|</span>项目<span class="token operator">|</span>内容<span class="token operator">|</span>
+<span class="token comment"># 注意，在表头的下方，必须有 |-|-|这样的形式，表示表头和内容隔开</span>
+<span class="token comment"># 当然了，|--|-|也是可以的，必须至少有一个 -</span>
+<span class="token operator">|</span>-<span class="token operator">|</span>-<span class="token operator">|</span>
+<span class="token operator">|</span>项目一<span class="token operator">|</span>内容一<span class="token operator">|</span>
+</code></pre><p data-source-line="166">上面的源码经过自动渲染后会得到如下效果</p>
+<table data-source-line="168">
+<thead data-source-line="168">
+<tr data-source-line="168">
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody data-source-line="170">
+<tr data-source-line="170">
+<td>项目一</td>
+<td>内容一</td>
+</tr>
+</tbody>
+</table>
+<p data-source-line="172"><strong>如果想要增加列数呢？</strong><br>
+很简单，只需要在右边增加一个<code>|</code>，<code>markdown</code>源码如下所示</p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code><span class="token operator">|</span>项目<span class="token operator">|</span>内容<span class="token operator">|</span>内容二<span class="token operator">|</span>
+<span class="token operator">|</span>-<span class="token operator">|</span>-<span class="token operator">|</span>-<span class="token operator">|</span>
+<span class="token operator">|</span>项目一<span class="token operator">|</span>项目二<span class="token operator">|</span>内容二<span class="token operator">|</span>
+</code></pre><p data-source-line="181">上面的源码经过自动渲染后会得到如下效果</p>
+<table data-source-line="183">
+<thead data-source-line="183">
+<tr data-source-line="183">
+<th>项目</th>
+<th>内容</th>
+<th>内容二</th>
+</tr>
+</thead>
+<tbody data-source-line="185">
+<tr data-source-line="185">
+<td>项目一</td>
+<td>项目二</td>
+<td>内容二</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      <div class="md-sidebar-toc">
+<div class="md-toc">
+<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#1-markdown-文档" class="md-toc-link">
+            <p data-source-line="1">1 markdown 文档</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#2-markdown标题" class="md-toc-link">
+            <p data-source-line="1">2 markdown标题</p>
+
+          </a></div><details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#3-代码块" class="md-toc-link"><p data-source-line="1">3 代码块</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#31-不带行数的代码块" class="md-toc-link">
+            <p data-source-line="1">3.1 不带行数的代码块</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#32-带行数的代码块" class="md-toc-link">
+            <p data-source-line="1">3.2 带行数的代码块</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#33-某句话中引用代码" class="md-toc-link">
+            <p data-source-line="1">3.3 某句话中引用代码</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#4-图表" class="md-toc-link"><p data-source-line="1">4 图表</p>
+</a>
+          </summary>
+        <div>
+          <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#41-流程图" class="md-toc-link"><p data-source-line="1">4.1 流程图</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#411-类型及基本语法" class="md-toc-link">
+            <p data-source-line="1">4.1.1 类型及基本语法</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#412-符号" class="md-toc-link">
+            <p data-source-line="1">4.1.2 符号</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#42-表格" class="md-toc-link"><p data-source-line="1">4.2 表格</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#421-默认表格" class="md-toc-link">
+            <p data-source-line="1">4.2.1 默认表格</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+        </div>
+      </details>
+    
+</div>
+</div>
+      <a id="sidebar-toc-btn">≡</a>
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+<script>
+document.body.setAttribute('html-show-sidebar-toc', true)
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
+      
+  
+    </body></html>

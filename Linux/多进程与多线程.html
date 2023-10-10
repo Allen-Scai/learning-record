@@ -1,0 +1,1023 @@
+<!DOCTYPE html><html><head>
+      <title>多进程与多线程</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\sccai\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.7.0\mume\dependencies\katex\katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:///c:\Users\sccai\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.7.0\mume\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      /**
+ * Darcula theme
+ *
+ * Adapted from a theme based on:
+ * IntelliJ Darcula Theme (https://github.com/bulenkov/Darcula)
+ *
+ * @author Alexandre Paradis <service.paradis@gmail.com>
+ * @version 1.0
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #a9b7c6;
+	font-family: Consolas, Monaco, 'Andale Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    color: inherit;
+    background: rgba(33,66,131,.85);
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    color: inherit;
+    background: rgba(33,66,131,.85);
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #2b2b2b;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.cdata {
+	color: #808080;
+}
+
+.token.delimiter,
+.token.boolean,
+.token.keyword,
+.token.selector,
+.token.important,
+.token.atrule {
+	color: #cc7832;
+}
+
+.token.operator,
+.token.punctuation,
+.token.attr-name {
+    color: #a9b7c6;
+}
+
+.token.tag,
+.token.tag .punctuation,
+.token.doctype,
+.token.builtin {
+    color: #e8bf6a;
+}
+
+.token.entity,
+.token.number,
+.token.symbol {
+    color: #6897bb;
+}
+
+.token.property,
+.token.constant,
+.token.variable {
+    color: #9876aa;
+}
+
+.token.string,
+.token.char {
+	color: #6a8759;
+}
+
+.token.attr-value,
+.token.attr-value .punctuation {
+    color: #a5c261;
+}
+.token.attr-value .punctuation:first-child {
+    color: #a9b7c6;
+}
+
+.token.url {
+	color: #287bde;
+	text-decoration: underline;
+}
+
+.token.function {
+	color: #ffc66d;
+}
+
+.token.regex {
+    background: #364135;
+}
+
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.token.inserted {
+    background: #294436;
+}
+
+.token.deleted {
+    background: #484a4a;
+}
+
+/*code.language-css .token.punctuation {
+	color: #cc7832;
+}*/
+
+code.language-css .token.property,
+code.language-css .token.property + .token.punctuation {
+	color: #a9b7c6;
+}
+
+code.language-css .token.id {
+	color: #ffc66d;
+}
+
+code.language-css .token.selector > .token.class,
+code.language-css .token.selector > .token.attribute,
+code.language-css .token.selector > .token.pseudo-class,
+code.language-css .token.selector > .token.pseudo-element {
+	color: #ffc66d;
+}
+
+/* highlight */
+pre[data-line] {
+	position: relative;
+	padding: 1em 0 1em 3em;
+  }
+  pre[data-line] .line-highlight-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: transparent;
+	display: block;
+	width: 100%;
+  }
+  
+  pre[data-line] .line-highlight {
+	position: absolute;
+	left: 0;
+	right: 0;
+	padding: inherit 0;
+	margin-top: 1em;
+	background: hsla(24, 20%, 50%,.08);
+	background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+	pointer-events: none;
+	line-height: inherit;
+	white-space: pre;
+  }
+  
+  pre[data-line] .line-highlight:before, 
+  pre[data-line] .line-highlight[data-end]:after {
+	content: attr(data-start);
+	position: absolute;
+	top: .4em;
+	left: .6em;
+	min-width: 1em;
+	padding: 0 .5em;
+	background-color: hsla(24, 20%, 50%,.4);
+	color: hsl(24, 20%, 95%);
+	font: bold 65%/1.5 sans-serif;
+	text-align: center;
+	vertical-align: .3em;
+	border-radius: 999px;
+	text-shadow: none;
+	box-shadow: 0 1px white;
+  }
+  
+  pre[data-line] .line-highlight[data-end]:after {
+	content: attr(data-end);
+	top: auto;
+	bottom: .4em;
+  }body{font-size:16px;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;background:#363B40;color:#b8bfc6;fill:currentColor;font-style:normal;line-height:1.625rem;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}body hr{height:2px;border:0;margin:50px 0 !important}body h1,body h2,body h3,body h4,body h5,body h6{font-family:"Lucida Grande","Corbal",Georgia,serif;font-weight:normal;clear:both;-ms-word-wrap:break-word;word-wrap:break-word;margin:0;padding:0}body h1{font-size:2.25rem;line-height:2.5rem;margin-bottom:1.5rem;letter-spacing:-1.5px}body h2{font-size:1.5rem;line-height:1.875rem;margin-bottom:1.5rem;letter-spacing:-1px}body h3{font-size:1.125rem;line-height:1.5rem;margin-bottom:1.5rem;letter-spacing:-1px}body h4{font-size:1rem;line-height:1.375rem;margin-bottom:1.5rem}body h5{font-size:1rem;line-height:1.25rem;margin-bottom:1.5rem}body h6{font-size:1rem;line-height:1rem;margin-bottom:.75rem;font-weight:bold}body a{text-decoration:none;outline:0}body a:hover{outline:0}body a:focus{outline:thin dotted}body p{-ms-word-wrap:break-word;word-wrap:break-word}body p,body ul,body dd,body ol,body hr,body address,body pre,body table,body iframe,body .wp-caption,body .wp-audio-shortcode,body .wp-video-shortcode{margin-top:0;margin-bottom:1.5rem}body audio:not([controls]){display:none}body [hidden]{display:none}body ::-moz-selection{background:#4a89dc;color:#fff;text-shadow:none}body *.in-text-selection,body ::selection{background:#4a89dc;color:#fff;text-shadow:none}body ul,body ol{padding:0 0 0 1.875rem}body ul{list-style:square}body ol{list-style:decimal}body ul ul,body ol ol,body ul ol,body ol ul{margin:0}body b,body th,body dt,body strong{font-weight:bold}body i,body em,body dfn,body cite{font-style:italic}body blockquote{padding-left:1.875rem;margin:0 0 1.875rem 1.875rem;border-left:solid 2px #474d54;padding-left:30px;margin-top:35px}body pre,body code,body kbd,body tt,body var{background:rgba(0,0,0,0.05);font-size:.875rem;font-family:Monaco,Consolas,"Andale Mono","DejaVu Sans Mono",monospace}body pre.md-fences{padding:10px 30px;margin-bottom:20px;border:1px solid}body .md-fences .code-tooltip{bottom:-3.2em}body code,body kbd,body tt,body var{padding:2px 5px}body table{max-width:100%;width:100%;border-collapse:collapse;border-spacing:0}body th,body td{padding:5px 10px;vertical-align:top}body a{-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}body hr{background:#474d54}body #write>*:first-child{margin-top:40px}body h1{margin-top:2em}body h1,body h2,body h3,body h4,body h5,body h6,body p,body .mathjax-exps,body .math,body li,body table{color:#DEDEDE}body a{color:#e0e0e0;text-decoration:underline}body a:hover{color:#fff}body b,body th,body dt,body strong{color:#DEDEDE}body mark{background:#D3D40E}body blockquote{color:#9DA2A6;background-color:#494f56}body table a{color:#DEDEDE}body th,body td{border:solid 1px #474d54;text-align:left}body li>p{margin-top:0;margin-bottom:0}body .task-list{padding-left:0}body .task-list-item{list-style:none;margin-left:-2em}body .task-list-item .task-list-item-checkbox{margin-right:.8em}body .task-list-item input{top:.1875rem}body .task-list-item input:before{content:"";display:inline-block;width:.875rem;height:.875rem;vertical-align:middle;text-align:center;border:1px solid #b8bfc6;background-color:#363B40;margin-top:-0.4375rem}body .task-list-item input:checked:before,body .task-list-item input[checked]:before{content:'\221A';font-size:.625rem;line-height:.625rem;color:#DEDEDE}body img{max-width:100%}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p,html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div{display:inline}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  300px/2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="1-%E8%BF%9B%E7%A8%8B%E7%8E%AF%E5%A2%83">1 进程环境</h1>
+
+<h2 class="mume-header" id="11-main-%E5%87%BD%E6%95%B0">1.1 main 函数</h2>
+
+<h3 class="mume-header" id="111-main-%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">1.1.1 main 函数的参数</h3>
+
+<p><code>int main(int argc, char *argv[])</code>是<code>main</code>函数的原型,<br>
+其中<code>argc</code>是参数的总数量，<code>argv</code>是指向各个参数的指针数组</p>
+<p>例如下面的一段代码</p>
+<pre data-role="codeBlock" data-info="c{.line-numbers}" class="language-c line-numbers"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> argc<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span><span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> argc<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"argv[%d]: %s\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> argv<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>   
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre><p>编译后运行可以像下面这样传递参数并获得打印结果：</p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token punctuation">[</span>root@pxe005056aa8b69 ~<span class="token punctuation">]</span><span class="token comment"># ./demo arg1 arg2 arg3</span>
+argv<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>: ./demo
+argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: arg1
+argv<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>: arg2
+argv<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span>: arg3
+</pre><h3 class="mume-header" id="112-main-%E5%87%BD%E6%95%B0%E9%82%A3%E4%BA%9B%E9%B2%9C%E5%B0%91%E8%A2%AB%E4%BA%BA%E7%86%9F%E7%9F%A5%E7%9A%84%E7%89%B9%E7%82%B9">1.1.2 main 函数那些鲜少被人熟知的特点</h3>
+
+<p><strong>当内核执行C程序时(使用一个 <code>exec</code> 函数)，在调用 <code>main</code>前先调用一个特殊的<font color="red">启动例程</font></strong></p>
+<h2 class="mume-header" id="12-%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2">1.2 进程终止</h2>
+
+<p>有8种方式使进程终止，其中5种为正常终止：</p>
+<ol>
+<li>从<code>main</code>返回</li>
+<li>调用<code>exit</code></li>
+<li>调用<code>_exit</code>或<code>Exit</code></li>
+<li>最后一个线程从其启动例程返回</li>
+<li>从最后一个线程调用<code>pthread_exit</code></li>
+</ol>
+<p>异常终止有3种方式：</p>
+<ol>
+<li>调用<code>abort</code></li>
+<li>接到一个信号</li>
+<li>最后一个线程对取消请求做出响应</li>
+</ol>
+<h3 class="mume-header" id="121-%E8%BF%9B%E7%A8%8B%E9%80%80%E5%87%BA%E5%87%BD%E6%95%B0">1.2.1 进程退出函数</h3>
+
+<pre data-role="codeBlock" data-info="c{.line-numbers}" class="language-c line-numbers"><span class="token comment">/*
+1. _Exit 和 _exit 函数立即进入内核
+2. exit 先执行一些清理处理，然后返回内核。exit 函数总是执行一个标准 I/O 库的清理关闭操作：对于所有打开流调用 fclose 函数
+*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span> <span class="token function">exit</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">_Exit</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;unistd.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span> <span class="token function">_exit</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> status<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre><h3 class="mume-header" id="122-%E5%87%BD%E6%95%B0-atexit">1.2.2 函数 atexit</h3>
+
+<p>按照<code>ISO C</code> 的规定，一个进程可以等级多至<code>32</code>个函数，这些函数将由<code>exit</code>自动调用。<br>
+称这些函数为<code>终止处理程序(exit handler)</code>，并调用<code>atexit</code>函数来等级这些函数。</p>
+<p><strong>下面是 atexit 函数的定义：</strong></p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+
+<span class="token comment">/*返回值：成功返回0；出错返回非0*/</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">atexit</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>func<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><p><img src="images/2023-09-02-13-39-05.png" alt="这是"></p>
+<h1 class="mume-header" id="1-%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81">1 进程状态</h1>
+
+<ol>
+<li>创建态</li>
+<li>就绪态</li>
+<li>执行态</li>
+<li>阻塞态</li>
+<li>终止态</li>
+</ol>
+<div class="mermaid">graph LR;
+    A[创建态] --&gt; B[就绪态];
+    B --&gt; C[运行态];
+    C --&gt; B[就绪态];
+    C --&gt; D[阻塞态];
+    D --&gt; B;
+    B --&gt; E[终止态]
+    C --&gt; E;
+    D --&gt; E;
+</div><h1 class="mume-header" id="2-%E8%BF%9B%E7%A8%8B%E5%91%BD%E4%BB%A4">2 进程命令</h1>
+
+<h2 class="mume-header" id="21-ps-%E5%91%BD%E4%BB%A4">2.1 ps 命令</h2>
+
+<p><code>ps</code> 命令用于查看当前运行的进程信息。它提供了许多选项和参数，让你可以获取更详细的进程信息。下面是 <code>ps</code> 命令的一些常用选项和用法：</p>
+<ol>
+<li>
+<p><code>ps</code> 命令的基本用法是 <code>ps</code>，它将显示当前终端窗口下的进程信息（只显示与当前终端相关的进程）。</p>
+</li>
+<li>
+<p><code>ps aux</code> 命令将显示所有用户的所有进程信息。其中 <code>a</code> 表示显示所有进程，<code>u</code> 表示显示详细的用户信息，<code>x</code> 表示显示没有控制终端的进程。</p>
+</li>
+<li>
+<p><code>ps -ef</code> 命令与 <code>ps aux</code> 命令类似，也可以显示所有进程的详细信息。</p>
+</li>
+<li>
+<p><code>ps -e</code> 命令将显示所有进程的基本信息，不包括线程。</p>
+</li>
+<li>
+<p><code>ps -C &lt;进程名&gt;</code> 命令将显示指定进程名的详细信息。</p>
+</li>
+<li>
+<p><code>ps -p &lt;进程ID&gt;</code> 命令将显示指定进程ID的详细信息。</p>
+</li>
+<li>
+<p><code>ps -o &lt;列名&gt;</code> 命令将显示指定的列信息。例如，<code>ps -o pid,ppid,cmd</code> 将只显示进程ID、父进程ID和命令列。</p>
+</li>
+<li>
+<p><code>ps -f</code> 命令将显示完整的格式化输出，包括更多的详细信息，如进程的父进程ID、CPU 使用率等。</p>
+</li>
+<li>
+<p><code>ps -H</code> 命令将显示进程树，以树状结构展示进程及其子进程的关系。</p>
+</li>
+<li>
+<p><code>ps -t &lt;终端名&gt;</code> 命令将显示指定终端上的进程信息。</p>
+</li>
+</ol>
+<p>这只是 <code>ps</code> 命令的一些常用选项和用法。你可以通过 <code>man ps</code> 命令在终端中查看完整的 <code>ps</code> 命令帮助文档，以获取更详细的信息和用法示例。</p>
+<h2 class="mume-header" id="22-kill-%E5%91%BD%E4%BB%A4">2.2 kill 命令</h2>
+
+<p><code>kill</code> 命令用于终止正在运行的进程。它发送一个特定的信号给目标进程，以指示其终止。下面是 <code>kill</code> 命令的一些常用选项和用法：</p>
+<ol>
+<li>
+<p><code>kill &lt;进程ID&gt;</code> 或 <code>kill -&lt;信号&gt; &lt;进程ID&gt;</code>：终止指定进程ID的进程。默认情况下，<code>kill</code> 命令发送的是终止信号（SIGTERM）给目标进程。你也可以通过 <code>-&lt;信号&gt;</code> 指定其他信号，如 <code>kill -9 &lt;进程ID&gt;</code> 可以强制终止目标进程，无条件杀死进程。</p>
+</li>
+<li>
+<p><code>kill -l</code>：显示所有可用的信号列表。</p>
+</li>
+<li>
+<p><code>killall &lt;进程名&gt;</code> 或 <code>killall -&lt;信号&gt; &lt;进程名&gt;</code>：终止所有具有指定进程名的进程。与 <code>kill</code> 命令不同，<code>killall</code> 命令可以使用进程名而不是进程ID来终止进程。</p>
+</li>
+<li>
+<p><code>pkill &lt;进程名&gt;</code> 或 <code>pkill -&lt;信号&gt; &lt;进程名&gt;</code>：终止与指定进程名匹配的进程。与 <code>killall</code> 命令类似，<code>pkill</code> 命令也可以使用进程名而不是进程ID来终止进程。</p>
+</li>
+<li>
+<p><code>kill -s &lt;信号&gt; &lt;进程ID&gt;</code>：发送指定信号给目标进程。你可以使用 <code>-l</code> 选项来查看可用的信号列表。</p>
+</li>
+<li>
+<p><code>kill -SIGSTOP &lt;进程ID&gt;</code>：暂停目标进程的执行，等效于 <code>kill -s SIGSTOP &lt;进程ID&gt;</code>。</p>
+</li>
+<li>
+<p><code>kill -SIGCONT &lt;进程ID&gt;</code>：恢复目标进程的执行，等效于 <code>kill -s SIGCONT &lt;进程ID&gt;</code>。</p>
+</li>
+</ol>
+<p>这只是 <code>kill</code> 命令的一些常用选项和用法。你可以通过 <code>man kill</code> 命令在终端中查看完整的 <code>kill</code> 命令帮助文档，以获取更详细的信息和用法示例。</p>
+<h1 class="mume-header" id="3-linux-%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA">3 linux 进程创建</h1>
+
+<h2 class="mume-header" id="31-fork-getpid-%E5%92%8C-getppid">3.1 fork, getpid 和 getppid</h2>
+
+<p>Linux中进程ID为 pid_t 类型，其本质是一个正整数，通过上边的ps aux命令已经得到了验证。PID为1的进程是Linux系统中创建的第一个进程。</p>
+<ul>
+<li>获取当前进程的 ID (PID)</li>
+</ul>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/types.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h&gt;</span></span>
+
+<span class="token class-name">pid_t</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><ul>
+<li>获取当前进程父进程的 ID （PPID）</li>
+</ul>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/types.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h&gt;</span></span>
+<span class="token class-name">pid_t</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><ul>
+<li>创建一个子进程</li>
+</ul>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h&gt;</span></span>
+
+<span class="token comment">/*
+fork() 调用成功之后，会返回两个值，父子进程的返回值是不同的。
+
+该函数调用成功之后，从一个虚拟地址空间变成了两个虚拟地址空间，每个地址空间中都会将 fork() 的返回值记录下来，这就是为什么会得到两个返回值的原因。
+
+父进程的虚拟地址空间中将该返回值标记为一个大于0的数（其实记录的是子进程的进程ID）
+
+子进程的虚拟地址空间中将该返回值标记 0
+
+在程序中需要通过 fork() 的返回值来判断当前进程是子进程还是父进程。处。
+*/</span>
+<span class="token class-name">pid_t</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><h2 class="mume-header" id="32-execl-%E5%92%8C-execlp-%E5%87%BD%E6%95%B0">3.2 execl 和 execlp 函数</h2>
+
+<p>在项目开发过程中，有时候有这种需求，需要通过现在运行的进程启动磁盘上的另一个可执行程序，也就是通过一个进程启动另一个进程，这种情况下我们可以使用 exec族函数，函数原型如下：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h&gt;</span></span>
+
+<span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token operator">*</span>environ<span class="token punctuation">;</span>
+<span class="token comment">/*
+参数:
+path: 要启动的可执行程序的路径, 推荐使用绝对路径
+arg: ps aux 查看进程的时候, 启动的进程的名字, 可以随意指定, 一般和要启动的可执行程序名相同
+... : 要执行的命令需要的参数，可以写多个，最后以 NULL 结尾，表示参数指定完了。
+返回值：如果这个函数执行成功, 没有返回值，如果执行失败, 返回 -1
+*/</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">execl</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>path<span class="token punctuation">,</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>arg<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+          <span class="token comment">/* (char  *) NULL */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+
+该函数常用于执行已经设置了环境变量的可执行程序，函数中的 p 是path，也是说这个函数会自动搜索系统的环境变量PATH，因此使用这个函数执行可执行程序不需要指定路径，只需要指定出可执行程序名字即可。
+
+参数:
+file: 可执行程序的名字
+在环境变量PATH中，可执行程序可以不加路径
+没有在环境变量PATH中, 可执行程序需要指定绝对路径
+arg: ps aux 查看进程的时候, 启动的进程的名字, 可以随意指定, 一般和要启动的可执行程序名相同
+... : 要执行的命令需要的参数，可以写多个，最后以 NULL 结尾，表示参数指定完了。
+返回值：如果这个函数执行成功, 没有返回值，如果执行失败, 返回 -1
+*/</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">execlp</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>file<span class="token punctuation">,</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>arg<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+           <span class="token comment">/* (char  *) NULL */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">execle</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>path<span class="token punctuation">,</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>arg<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+           <span class="token comment">/*, (char *) NULL, char * const envp[] */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">execv</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>path<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token keyword keyword-const">const</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">execvp</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>file<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token keyword keyword-const">const</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-int">int</span> <span class="token function">execvpe</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span>file<span class="token punctuation">,</span> <span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token keyword keyword-const">const</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token keyword keyword-char">char</span> <span class="token operator">*</span><span class="token keyword keyword-const">const</span> envp<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><p>这些函数执行成功后不会返回，因为调用进程的实体，包括代码段，数据段和堆栈等都已经被新的内容取代（也就是说用户区数据基本全部被替换掉了），只留下进程ID等一些表面上的信息仍保持原样，颇有些神似”三十六计”中的”金蝉脱壳”。看上去还是旧的躯壳，却已经注入了新的灵魂。只有调用失败了，它们才会返回一个 -1，从原程序的调用点接着往下执行。</p>
+<p>也就是说 <strong>exec族函数并没有创建新进程的能力，只是有大无畏的牺牲精神，让起启动的新进程寄生到自己虚拟地址空间之内，并挖空了自己的地址空间用户区，把新启动的进程数据填充进去</strong>。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">/*演示了如何使用 execl */</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;stdio.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;sys/types.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;unistd.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">pid_t</span> pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"I am son process, my pid is %d, my dad pid is %d, i will exec create_more\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">/*
+            当前目录下有一个可执行文件 create_more，用函数execl 执行这个可执行文件，第二个参数 create_more 表示当通过 ps aux 查看进程信息的时候，显示的进程名字是 create_more，这个名字最好和可执行文件的名字保持一致，以便更加直观。当然，进程名字和可执行文件的名字不一致也是可以的，不过不建议这样做。
+        */</span>
+        <span class="token function">execl</span><span class="token punctuation">(</span><span class="token string">"./create_more"</span><span class="token punctuation">,</span> <span class="token string">"create_more"</span><span class="token punctuation">,</span> <span class="token string">"aux"</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pid <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"I am dad process, my pid is %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"I will sleep 5s to wait my son process execing over.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+</pre><h1 class="mume-header" id="4-%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6">4 进程控制</h1>
+
+<h2 class="mume-header" id="41-%E7%BB%93%E6%9D%9F%E8%BF%9B%E7%A8%8B">4.1 结束进程</h2>
+
+<p>如果想要直接退出某个进程可以在程序的任何位置调用exit()或者_exit()函数。函数的参数相当于退出码, 如果参数值为 0 程序退出之后的状态码就是0, 如果是100退出的状态码就是100。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">// 专门退出进程的函数, 在任何位置调用都可以</span>
+<span class="token comment">// 标准C库函数</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span> <span class="token function">exit</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Linux的系统函数</span>
+<span class="token comment">// 可以这么理解, 在linux中 exit() 函数 封装了 _exit()</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h&gt;</span></span>
+<span class="token keyword keyword-void">void</span> <span class="token function">_exit</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><h2 class="mume-header" id="42-%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B">4.2 孤儿进程</h2>
+
+<p>在一个启动的进程中创建子进程，这时候父子进程同时运行，但是父进程由于某种原因先退出了，子进程还在运行，这时候这个子进程就可以被称之为孤儿进程（跟现实是一样的）。</p>
+<p>操作系统是非常关爱运行的每一个进程的，当检测到某一个进程变成了孤儿进程，这时候系统中就会有一个固定的进程领养这个孤儿进程（有干爹了）。<strong>如果使用Linux没有桌面终端，这个领养孤儿进程的进程就是 init 进程（PID=1），如果有桌面终端，这个领养孤儿进程就是桌面进程。</strong></p>
+<p>那么问题来了，系统为什么要领养这个孤儿进程呢？<strong>在子进程退出的时候, 进程中的用户区可以自己释放, 但是进程内核区的 pcb 资源自己无法释放，必须要由父进程来释放子进程的 pcb 资源</strong>，孤儿进程被领养之后，这件事儿干爹就可以代劳了，这样可以避免系统资源的浪费。</p>
+<p>下面的程序可以得到一个孤儿进程：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">// 创建子进程</span>
+    <span class="token class-name">pid_t</span> pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 父进程</span>
+    <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是父进程, pid=%d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 强迫子进程睡眠1s, 这个期间, 父进程退出, 当前进程变成了孤儿进程</span>
+        <span class="token comment">// 子进程</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是子进程, pid=%d, 父进程ID: %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</pre><h2 class="mume-header" id="43-%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B">4.3 僵尸进程</h2>
+
+<p>在一个启动的进程中创建子进程，这时候就有了父子两个进程，<strong>父进程正常运行, 子进程先于父进程结束, 子进程无法释放自己的PCB资源, 需要父进程来做这个件事儿, 但是如果父进程也不管</strong>, 这时候子进程就变成了僵尸进程。</p>
+<p>僵尸进程不能将它看成是一个正常的进程，这个进程已经死亡了，用户区资源已经被释放了，只是还占用着一些内核资源（PCB）。 僵尸进程就相当于是一副已经腐烂只剩下骨头的尸体。</p>
+<p>僵尸进程的出现是由于这个已死亡的进程的父进程不作为造成的。</p>
+<p>运行下面的代码就可以得到一个僵尸进程:</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">pid_t</span> pid<span class="token punctuation">;</span>
+    <span class="token comment">// 创建子进程</span>
+    <span class="token keyword keyword-for">for</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 父进程</span>
+    <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 需要保证父进程一直在运行</span>
+        <span class="token comment">// 一直运行不退出, 并且也做回收, 就会出现僵尸进程</span>
+        <span class="token keyword keyword-while">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是父进程, pid=%d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 子进程, 执行这句代码之后, 子进程退出了</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是子进程, pid=%d, 父进程ID: %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</pre><pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token comment"># ps aux 查看进程信息</span>
+<span class="token comment"># Z+ --&gt; 这个进程是僵尸进程, defunct, 表示进程已经死亡</span>
+robin     <span class="token number">22598</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>   <span class="token number">4352</span>   <span class="token number">624</span> pts/2    S+   <span class="token number">10</span>:11   <span class="token number">0</span>:00 ./app
+robin     <span class="token number">22599</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>      <span class="token number">0</span>     <span class="token number">0</span> pts/2    Z+   <span class="token number">10</span>:11   <span class="token number">0</span>:00 <span class="token punctuation">[</span>app<span class="token punctuation">]</span> <span class="token operator">&lt;</span>defunct<span class="token operator">&gt;</span> <span class="token comment"># 子进程</span>
+robin     <span class="token number">22600</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>      <span class="token number">0</span>     <span class="token number">0</span> pts/2    Z+   <span class="token number">10</span>:11   <span class="token number">0</span>:00 <span class="token punctuation">[</span>app<span class="token punctuation">]</span> <span class="token operator">&lt;</span>defunct<span class="token operator">&gt;</span> <span class="token comment"># 子进程</span>
+robin     <span class="token number">22601</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>      <span class="token number">0</span>     <span class="token number">0</span> pts/2    Z+   <span class="token number">10</span>:11   <span class="token number">0</span>:00 <span class="token punctuation">[</span>app<span class="token punctuation">]</span> <span class="token operator">&lt;</span>defunct<span class="token operator">&gt;</span> <span class="token comment"># 子进程</span>
+robin     <span class="token number">22602</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>      <span class="token number">0</span>     <span class="token number">0</span> pts/2    Z+   <span class="token number">10</span>:11   <span class="token number">0</span>:00 <span class="token punctuation">[</span>app<span class="token punctuation">]</span> <span class="token operator">&lt;</span>defunct<span class="token operator">&gt;</span> <span class="token comment"># 子进程</span>
+robin     <span class="token number">22603</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>      <span class="token number">0</span>     <span class="token number">0</span> pts/2    Z+   <span class="token number">10</span>:11   <span class="token number">0</span>:00 <span class="token punctuation">[</span>app<span class="token punctuation">]</span> <span class="token operator">&lt;</span>defunct<span class="token operator">&gt;</span> <span class="token comment"># 子进程</span>
+</pre><h2 class="mume-header" id="44-%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B-%E5%92%8C-%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB">4.4 孤儿进程 和 僵尸进程的区别</h2>
+
+<ol>
+<li>孤儿进程是因为<strong>父进程先于子进程退出，子进程没有爹了</strong>。后续就没有父进程能帮其回收资源，因此需要有一个新的进程接管它</li>
+<li>僵尸进程是因为<strong>子进程先于父进程退出，父进程虽然一直在运行，但是不帮其回收资源(例如一直在做 while(1)，啥也不干)</strong>。子进程已经不再运行，用户区的资源能够自己回收，但是其内核区的 PCB 资源没法回收，就像僵尸一样只有一具空壳。</li>
+</ol>
+<h2 class="mume-header" id="45-%E5%9B%9E%E6%94%B6%E5%AD%90%E8%BF%9B%E7%A8%8B">4.5 回收子进程</h2>
+
+<h3 class="mume-header" id="451-wait">4.5.1 wait</h3>
+
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">/*
+参数：传出参数，通过传递出的信息判断回收的进程是怎么退出的，如果不需要该信息可以指定为 NULL。取出整形变量中的数据需要使用一些宏函数，具体操作方式如下：
+WIFEXITED(status): 返回1, 进程是正常退出的
+
+WEXITSTATUS(status)：得到进程退出时候的状态码，相当于 return 后边的数值, 或者 exit()函数的参数
+
+WIFSIGNALED(status): 返回1, 进程是被信号杀死了
+
+WTERMSIG(status): 获得进程是被哪个信号杀死的，会得到信号的编号
+返回值:
+成功：返回被回收的子进程的进程ID
+失败: -1
+没有子进程资源可以回收了, 函数的阻塞会自动解除, 返回-1
+回收子进程资源的时候出现了异常
+*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h&gt;</span></span>
+
+<span class="token class-name">pid_t</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> <span class="token operator">*</span>status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><p><strong>下面的代码演示了如何用 wait 回收子进程：</strong></p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">// wait 函数回收子进程资源</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">pid_t</span> pid<span class="token punctuation">;</span>
+    <span class="token comment">// 创建子进程</span>
+    <span class="token keyword keyword-for">for</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 父进程</span>
+    <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 需要保证父进程一直在运行</span>
+        <span class="token keyword keyword-while">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment">// 回收子进程的资源</span>
+            <span class="token comment">// 子进程由多个, 需要循环回收子进程资源</span>
+            <span class="token class-name">pid_t</span> ret <span class="token operator">=</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>ret <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"成功回收了子进程资源, 子进程PID: %d\n"</span><span class="token punctuation">,</span> ret<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword keyword-else">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"回收失败, 或者是已经没有子进程了...\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是父进程, pid=%d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 子进程, 执行这句代码之后, 子进程退出了</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是子进程, pid=%d, 父进程ID: %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</pre><h3 class="mume-header" id="452-waitid">4.5.2 waitid</h3>
+
+<p>waitpid() 函数可以看做是 wait() 函数的升级版，通过该函数可以控制回收子进程资源的方式是阻塞还是非阻塞，另外还可以通过该函数进行精准打击，可以精确指定回收某个或者某一类或者是全部子进程资源。</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">/*
+参数:
+
+pid:
+
+-1：回收所有的子进程资源, 和wait()是一样的, 无差别回收，并不是一次性就可以回收多个, 也是需要循环回收的
+大于0：指定回收某一个进程的资源 ，pid是要回收的子进程的进程ID
+0：回收当前进程组的所有子进程ID
+小于 -1：pid 的绝对值代表进程组ID，表示要回收这个进程组的所有子进程资源
+status: NULL, 和wait的参数是一样的
+
+options: 控制函数是阻塞还是非阻塞
+
+0: 函数是行为是阻塞的 ==&gt; 和wait一样
+WNOHANG: 函数是行为是非阻塞的
+返回值:
+
+如果函数是非阻塞的, 并且子进程还在运行, 返回0
+成功: 得到子进程的进程ID
+失败: -1
+没有子进程资源可以回收了, 函数如果是阻塞的, 阻塞会解除, 直接返回-1
+回收子进程资源的时候出现了异常
+*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h&gt;</span></span>
+<span class="token comment">// 这个函数可以设置阻塞, 也可以设置为非阻塞</span>
+<span class="token comment">// 这个函数可以指定回收哪些子进程的资源</span>
+<span class="token class-name">pid_t</span> <span class="token function">waitpid</span><span class="token punctuation">(</span><span class="token class-name">pid_t</span> pid<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> <span class="token operator">*</span>status<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><p><strong>下面的例子演示了如何使用 waitid 阻塞回收进程资源</strong></p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">// 和wait() 行为一样, 阻塞</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">pid_t</span> pid<span class="token punctuation">;</span>
+    <span class="token comment">// 创建子进程</span>
+    <span class="token keyword keyword-for">for</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 父进程</span>
+    <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 需要保证父进程一直在运行</span>
+        <span class="token keyword keyword-while">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment">// 回收子进程的资源</span>
+            <span class="token comment">// 子进程由多个, 需要循环回收子进程资源</span>
+            <span class="token keyword keyword-int">int</span> status<span class="token punctuation">;</span>
+            <span class="token class-name">pid_t</span> ret <span class="token operator">=</span> <span class="token function">waitpid</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>status<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// == wait(NULL);</span>
+            <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>ret <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"成功回收了子进程资源, 子进程PID: %d\n"</span><span class="token punctuation">,</span> ret<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                                <span class="token comment">// 判断进程是不是正常退出</span>
+                <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span><span class="token function">WIFEXITED</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"子进程退出时候的状态码: %d\n"</span><span class="token punctuation">,</span> <span class="token function">WEXITSTATUS</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span><span class="token function">WIFSIGNALED</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"子进程是被这个信号杀死的: %d\n"</span><span class="token punctuation">,</span> <span class="token function">WTERMSIG</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword keyword-else">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"回收失败, 或者是已经没有子进程了...\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是父进程, pid=%d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 子进程, 执行这句代码之后, 子进程退出了</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"===我是子进程, pid=%d, 父进程ID: %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</pre><p><strong>下面的例子演示了如何使用 waitid 非阻塞回收进程资源</strong></p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">// 非阻塞处理</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h&gt;</span></span>
+
+<span class="token keyword keyword-int">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">pid_t</span> pid<span class="token punctuation">;</span>
+    <span class="token comment">// 创建子进程</span>
+    <span class="token keyword keyword-for">for</span><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 父进程</span>
+    <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 需要保证父进程一直在运行</span>
+        <span class="token keyword keyword-while">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment">// 回收子进程的资源</span>
+            <span class="token comment">// 子进程由多个, 需要循环回收子进程资源</span>
+            <span class="token comment">// 子进程退出了就回收, </span>
+            <span class="token comment">// 没退出就不回收, 返回0</span>
+            <span class="token keyword keyword-int">int</span> status<span class="token punctuation">;</span>
+            <span class="token class-name">pid_t</span> ret <span class="token operator">=</span> <span class="token function">waitpid</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>status<span class="token punctuation">,</span> WNOHANG<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 非阻塞</span>
+            <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>ret <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"成功回收了子进程资源, 子进程PID: %d\n"</span><span class="token punctuation">,</span> ret<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// 判断进程是不是正常退出</span>
+                <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span><span class="token function">WIFEXITED</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"子进程退出时候的状态码: %d\n"</span><span class="token punctuation">,</span> <span class="token function">WEXITSTATUS</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span><span class="token function">WIFSIGNALED</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"子进程是被这个信号杀死的: %d\n"</span><span class="token punctuation">,</span> <span class="token function">WTERMSIG</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>ret <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"子进程还没有退出, 不做任何处理...\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword keyword-else">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"回收失败, 或者是已经没有子进程了...\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是父进程, pid=%d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// 子进程, 执行这句代码之后, 子进程退出了</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"===我是子进程, pid=%d, 父进程ID: %d\n"</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</pre><h1 class="mume-header" id="5-%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1ipc-iner">5 进程间通信(IPC, Iner)</h1>
+
+<h2 class="mume-header" id="51-%E7%AE%A1%E9%81%93">5.1 管道</h2>
+
+<h2 class="mume-header" id="52-%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84%E5%8C%BA">5.2 内存映射区</h2>
+
+<h2 class="mume-header" id="53-%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98">5.3 共享内存</h2>
+
+<h2 class="mume-header" id="54-%E4%BF%A1%E5%8F%B7">5.4 信号</h2>
+
+<h1 class="mume-header" id="6-%E7%BA%BF%E7%A8%8B">6 线程</h1>
+
+<h2 class="mume-header" id="61-%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B">6.1 创建线程</h2>
+
+
+      </div>
+      <div class="md-sidebar-toc">
+<div class="md-toc">
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#1-进程环境" class="md-toc-link"><p>1 进程环境</p>
+</a>
+          </summary>
+        <div>
+          <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#11-main-函数" class="md-toc-link"><p>1.1 main 函数</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#111-main-函数的参数" class="md-toc-link">
+            <p>1.1.1 main 函数的参数</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#112-main-函数那些鲜少被人熟知的特点" class="md-toc-link">
+            <p>1.1.2 main 函数那些鲜少被人熟知的特点</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#12-进程终止" class="md-toc-link"><p>1.2 进程终止</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#121-进程退出函数" class="md-toc-link">
+            <p>1.2.1 进程退出函数</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#122-函数-atexit" class="md-toc-link">
+            <p>1.2.2 函数 atexit</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#1-进程状态" class="md-toc-link">
+            <p>1 进程状态</p>
+
+          </a></div><details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#2-进程命令" class="md-toc-link"><p>2 进程命令</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#21-ps-命令" class="md-toc-link">
+            <p>2.1 ps 命令</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#22-kill-命令" class="md-toc-link">
+            <p>2.2 kill 命令</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#3-linux-进程创建" class="md-toc-link"><p>3 linux 进程创建</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#31-fork-getpid-和-getppid" class="md-toc-link">
+            <p>3.1 fork, getpid 和 getppid</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#32-execl-和-execlp-函数" class="md-toc-link">
+            <p>3.2 execl 和 execlp 函数</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#4-进程控制" class="md-toc-link"><p>4 进程控制</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#41-结束进程" class="md-toc-link">
+            <p>4.1 结束进程</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#42-孤儿进程" class="md-toc-link">
+            <p>4.2 孤儿进程</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#43-僵尸进程" class="md-toc-link">
+            <p>4.3 僵尸进程</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#44-孤儿进程-和-僵尸进程的区别" class="md-toc-link">
+            <p>4.4 孤儿进程 和 僵尸进程的区别</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#45-回收子进程" class="md-toc-link"><p>4.5 回收子进程</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#451-wait" class="md-toc-link">
+            <p>4.5.1 wait</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#452-waitid" class="md-toc-link">
+            <p>4.5.2 waitid</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#5-进程间通信ipc-iner" class="md-toc-link"><p>5 进程间通信(IPC, Iner)</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#51-管道" class="md-toc-link">
+            <p>5.1 管道</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#52-内存映射区" class="md-toc-link">
+            <p>5.2 内存映射区</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#53-共享内存" class="md-toc-link">
+            <p>5.3 共享内存</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#54-信号" class="md-toc-link">
+            <p>5.4 信号</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#6-线程" class="md-toc-link"><p>6 线程</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#61-创建线程" class="md-toc-link">
+            <p>6.1 创建线程</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+</div>
+</div>
+      <a id="sidebar-toc-btn">≡</a>
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+import zenuml from 'https://cdn.jsdelivr.net/npm/@mermaid-js/mermaid-zenuml@0.1.0/dist/mermaid-zenuml.esm.min.mjs';
+await mermaid.registerExternalDiagrams([zenuml])
+
+var MERMAID_CONFIG;
+// config mermaid init call
+// http://knsv.github.io/mermaid/#configuration
+//
+// You can edit the 'MERMAID_CONFIG' variable below.
+MERMAID_CONFIG = {
+  startOnLoad: false
+}
+
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidechanged', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+<script>
+document.body.setAttribute('html-show-sidebar-toc', true)
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
+      
+  
+    </body></html>
